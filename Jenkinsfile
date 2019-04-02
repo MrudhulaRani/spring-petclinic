@@ -1,5 +1,14 @@
 pipeline {
     stages {
+  	stage ('Prepare') {
+        steps {
+            checkout([$class: 'GitSCM', 
+                branches: [[name: '*/master']], 
+                extensions: [[$class: 'CleanCheckout']], 
+                userRemoteConfigs: [[credentialsId: 'git-credentials', url: 'https://github.com/MrudhulaRani/spring-petclinic.git']]
+                ])
+            }
+        }
         stage('petclinic Build') {
             steps {
                 sh './mvnw package'
