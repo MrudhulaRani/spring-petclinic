@@ -24,7 +24,7 @@ pipeline {
 			}
         stage('petclinic docker Run') {
             steps {
-                sh 'docker run --name petclinicapp2 -p 8091:8080 vmr-petclinic'
+                sh 'docker run --name petclinicapp2 -d -p 8091:8080 vmr-petclinic'
             }
         }
         }
