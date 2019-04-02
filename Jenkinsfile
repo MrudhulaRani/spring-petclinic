@@ -15,10 +15,16 @@ pipeline {
                 sh './mvnw package'
             }
 		}
-        stage('petclinic docker Build') {
+        stage('cleanup docker') {
             steps {
+                sh 'docker stop petclinicapp2'
                 sh 'docker rm petclinicapp2'
                 sh 'docker rmi vmr-petclinic'    
+            }
+			}
+        stage('petclinic docker Build') {
+            steps {
+                
                 sh 'docker build -t vmr-petclinic .'
             }
 			}
