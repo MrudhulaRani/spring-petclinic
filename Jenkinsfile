@@ -17,6 +17,8 @@ pipeline {
 		}
         stage('petclinic docker Build') {
             steps {
+                sh 'docker rm petclinicapp2'
+                sh 'docker rmi vmr-petclinic'    
                 sh 'docker build -t vmr-petclinic .'
             }
 			}
