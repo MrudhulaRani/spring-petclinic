@@ -3,34 +3,26 @@ pipeline {
     stages {
   	stage ('Prepare') {
         steps {
-            checkout([$class: 'GitSCM', 
-                branches: [[name: '*/master']], 
-                extensions: [[$class: 'CleanCheckout']], 
+            checkout([$class: 'GitSCM',
+                branches: [[name: '*/master']],
+                extensions: [[$class: 'CleanCheckout']],
                 userRemoteConfigs: [[credentialsId: 'git-credentials', url: 'https://github.com/MrudhulaRani/spring-petclinic.git']]
                 ])
             }
         }
-        stage('petclinic Build') {
+        stage('petclinic1 Build') {
             steps {
                 sh './mvnw package'
             }
 		}
-        stage('cleanup docker') {
+        stage('petclinic1 docker Build') {
             steps {
-                sh 'docker stop petclinicapp2'
-                sh 'docker rm petclinicapp2'
-                sh 'docker rmi vmr-petclinic'    
+                sh 'docker build -t vmr-petclinic1 .'
             }
 			}
-        stage('petclinic docker Build') {
+        stage('petclinic1 docker Run') {
             steps {
-                
-                sh 'docker build -t vmr-petclinic .'
-            }
-			}
-        stage('petclinic docker Run') {
-            steps {
-                sh 'docker run --name petclinicapp2 -d -p 8091:8080 vmr-petclinic'
+                sh 'docker run --name vmr-petclinicapp1 -d -p 8091:8080 vmr-petclinic1'
             }
         }
         }
